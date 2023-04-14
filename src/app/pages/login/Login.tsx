@@ -1,8 +1,20 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { InputLogin } from "./components/InputLogin";
+import { ButtonLogin } from "app/pages/login/components/ButtonLogin";
 
 export const PageLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const inputPasswordRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
+
+  const handlePaginaInicial = useCallback(() => {
+    navigate("/pagina-inicial");
+  }, []);
 
   // useMemo => Guarda cáculos complexos em memória
   const emailLength = useMemo(() => {
@@ -26,27 +38,29 @@ export const PageLogin = () => {
       <form>
         <p>Quantidade de caracteres no email: {emailLength}</p>
 
-        <label>
-          <span>Email</span>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
+        <InputLogin
+          label="email"
+          type="email"
+          value={email}
+          onChange={(newValue) => setEmail(newValue)}
+          onPressEnter={() => inputPasswordRef.current?.focus()}
+        />
 
-        <label>
-          <span>Senha</span>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+        <InputLogin
+          label="Senha"
+          type="password"
+          value={password}
+          onChange={(newValue) => setPassword(newValue)}
+        />
 
-        <button type="button" onClick={handleEntrar}>
-          Entrar
-        </button>
+        <ButtonLogin text="Entrar" type="button" onClick={handleEntrar} />
+
+        <ButtonLogin
+          text="Página inicial"
+          type="button"
+          onClick={handlePaginaInicial}
+        />
+        
       </form>
     </div>
   );
