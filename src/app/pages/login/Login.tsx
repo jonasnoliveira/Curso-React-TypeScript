@@ -2,11 +2,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { InputLogin } from "./components/InputLogin";
-import { ButtonLogin } from "app/pages/login/components/ButtonLogin";
+import { Button, Title } from "app/shared/components";
+import { useUsuarioLogado } from "app/shared/hooks";
 
 export const PageLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
+  const { nomeUsuario, logout } = useUsuarioLogado();
 
   const inputPasswordRef = useRef<HTMLInputElement>(null);
 
@@ -25,16 +29,18 @@ export const PageLogin = () => {
   const handleEntrar = useCallback(() => {
     console.log("useCallback", email);
     console.log("useCallback", password);
-  }, [email, password]);
+    console.log("useCallback", name);
+  }, [email, password, name]);
 
   useEffect(() => {
     console.log("useEffect", email);
     console.log("useEffect", password);
-  }, [email, password]);
+    console.log("useEffect", name);
+  }, [email, password, name]);
 
   return (
     <div>
-      Login
+      <Title text="Login" />
       <form>
         <p>Quantidade de caracteres no email: {emailLength}</p>
 
@@ -50,17 +56,28 @@ export const PageLogin = () => {
           label="Senha"
           type="password"
           value={password}
+          ref={inputPasswordRef}
           onChange={(newValue) => setPassword(newValue)}
         />
 
-        <ButtonLogin text="Entrar" type="button" onClick={handleEntrar} />
+        <Button type="button" onClick={handleEntrar}>
+          Entrar
+        </Button>
 
-        <ButtonLogin
-          text="Página inicial"
-          type="button"
-          onClick={handlePaginaInicial}
+        <Button type="button" onClick={logout}>
+          Name
+        </Button>
+
+        <InputLogin
+          label="Nome"
+          type="text"
+          value={name}
+          onChange={(newValue) => setName(newValue)}
         />
-        
+
+        <Button type="button" onClick={handlePaginaInicial}>
+          Página inicial
+        </Button>
       </form>
     </div>
   );

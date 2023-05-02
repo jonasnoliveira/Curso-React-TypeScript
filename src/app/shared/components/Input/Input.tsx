@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-interface InputLoginProps {
+interface InputProps {
   label: string;
   value: string;
   type: string;
@@ -9,7 +9,7 @@ interface InputLoginProps {
   onPressEnter?: () => void;
 }
 
-export const InputLogin = React.forwardRef<HTMLInputElement, InputLoginProps>(
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => {
     return (
       <label>
